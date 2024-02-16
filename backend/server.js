@@ -14,9 +14,7 @@ app.use(express.json())
 app.use("/api/auth/",authRoutes)
 
 app.get("/", (req,res)=>{
-    console.log("hey");
     res.send("Hello World");
-    console.log("helow biradar");
 })
 
 

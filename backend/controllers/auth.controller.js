@@ -1,27 +1,32 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
+import generateTokenAndSetCookie from "../utils/generateToken.js";
 
 
 export const signupUser = async (req,res)=>{
     try {
         console.log(req.body)
+        //desturct the data recieved from frontend
         const {fullName, username, password, confirmPassword, gender} = req.body;
-
+        //check if pass match or not
         if(password !== confirmPassword){
             return res.status(400).json({error:"Password and Confirm Password do not match!"})        
         }
+        //check if user exists already
         const user = await User.findOne({username});
         if(user){
             return res.status(400).json({error: "Username already exists"});
         }
 
+        //Hashing Password using Bcrypt
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password,salt)
 
-        // https://avatar-placeholder.iran.liara.run
+        //Deciding profile pic acc. to gender of the user
         const boyProfilePic = `https://avatar.iran.liara.run/public/boy?username=${username}`;
         const girlProfilePic = `https://avatar.iran.liara.run/public/girl?username=${username}`;
-
+        
+        //new user object is created
         const newUser = new User({
             fullName,
             username,
@@ -31,9 +36,12 @@ export const signupUser = async (req,res)=>{
         })
 
         if(newUser){
-            await newUser.save();
 
-            res.status(201).json({
+            generateTokenAndSetCookie(newUser._id,res);
+
+            await newUser.save(); //new user oject is saved.
+
+            res.status(201).json({   //to check if user is correctly created or not
                 _id: newUser._id,
                 fullName: newUser.fullName,
                 username: newUser.username,
