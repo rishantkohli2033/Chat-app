@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: ""
     }
-});
+},{timestamps:true});//will give createdAt, updatedAt fields
 
 const User = mongoose.model("User", userSchema);
 export default User;
