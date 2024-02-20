@@ -5,7 +5,6 @@ import generateTokenAndSetCookie from "../utils/generateToken.js";
 
 export const signupUser = async (req,res)=>{
     try {
-        console.log(req.body)
         //desturct the data recieved from frontend
         const {fullName, username, password, confirmPassword, gender} = req.body;
         //check if pass match or not
@@ -45,8 +44,6 @@ export const signupUser = async (req,res)=>{
                 _id: newUser._id,
                 fullName: newUser.fullName,
                 username: newUser.username,
-                password: newUser.password,
-                gender: newUser.gender,
                 profilePic: newUser.profilePic
             })
         }else{
@@ -59,8 +56,6 @@ export const signupUser = async (req,res)=>{
 }
 
 export const loginUser = async (req,res)=>{
-    //res.send("Login")
-    console.log(req.body);
     try {
         const {username, password} = req.body;
         const user = await User.findOne({username});
@@ -74,7 +69,6 @@ export const loginUser = async (req,res)=>{
             _id: user._id,
             fullName: user.fullName,
             username: user.username,
-            password: user.password,
             gender: user.gender
         })
     } 
