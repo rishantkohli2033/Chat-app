@@ -1,5 +1,6 @@
 import Conversation from "../models/conversation.model.js";
 import Message from "../models/message.model.js";
+import { getRecieverSocketId, io } from "../socket/socket.js";
 
 export const sendMessage = async (req,res)=>{
     try {
@@ -27,11 +28,16 @@ export const sendMessage = async (req,res)=>{
         if(newMessage){
             conversation.messages.push(newMessage._id);
         }
-
         // await conversation.save();
         // await newMessage.save();
         //the above comment can be converted to the statement below
         await Promise.all([conversation.save(),  newMessage.save()]); //It will mmake both of them run in parallel
+
+        const receiverSocketId = getRecieverSocketId(receiverId);
+        if(receiverSocketId){
+            io.to(receiverSocketId).emit("newMessage", newMessage)
+        }
+
         res.status(201).json(newMessage);
     } catch (error) {
         console.log("Error in SendMessage controller: ",error.message);
