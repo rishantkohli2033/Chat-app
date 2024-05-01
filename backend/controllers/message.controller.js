@@ -8,7 +8,7 @@ export const sendMessage = async (req,res)=>{
         const {message} = req.body;
         const {id:receiverId} = req.params; //id:receiverId changes variable name from id to receiverId
         const senderId = req.user._id;
-        console.log(receiverId);
+        
         let conversation = await Conversation.findOne({
             participants:{$all:[senderId,receiverId]},
         })
