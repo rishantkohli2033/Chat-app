@@ -14,12 +14,12 @@ const Message = ({message}) => {
     const shakeMessage = message.shouldShake ? "shake" : "";
   return (
     <div className={`chat ${chatClassName}`}>
-        <div className='chat-image avatar'>
+        <div className='hidden sm:block chat-image avatar'>
             <div className='w-10 rounded-full'>
                 <img src={profilePic} alt="message image" />
             </div>
         </div>
-        <div className={`chat-bubble text-white ${bubbleBgColor} ${shakeMessage} pb-2`}>
+        <div className={`chat-bubble truncate text-white ${bubbleBgColor} ${shakeMessage} pb-2`}>
            {message.message}
         </div>
         <div className='chat-footer opacity-50 text-xs flex gap-1 items-center'>

@@ -11,16 +11,17 @@ body{
 
 /* Scrollbar */
 ::-webkit-scrollbar {
-	width: 8px;
+	width: 4px;
 }
 
 ::-webkit-scrollbar-track {
 	background: #555;
+	border-radius: 25px;
 }
 
 ::-webkit-scrollbar-thumb {
 	background: #121212;
-	border-radius: 5px;
+	border-radius: 25px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
